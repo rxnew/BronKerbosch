@@ -6,6 +6,7 @@
 #pragma once
 
 #include <unordered_set>
+#include <algorithm>
 
 namespace util {
 
@@ -46,8 +47,8 @@ auto set_operation(const std::unordered_set<T>& lhs,
                    const std::unordered_set<T>& rhs,
                    const F& operation) -> std::unordered_set<T> {
   std::unordered_set<T> result;
-  std::operation(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(),
-                 std::inserter(result, result.end()));
+  operation(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(),
+            std::inserter(result, result.end()));
   return std::move(result);
 }
 

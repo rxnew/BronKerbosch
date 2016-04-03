@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <unordered_set>
 #include <unordered_map>
 
 namespace bk {
@@ -27,15 +28,13 @@ class Graph {
   ~Graph() = default;
 
   auto getVertices() const -> const Vertices&;
-  auto getAdjacentVertices(V* v) -> const Vertices&;
+  auto getAdjacentVertices(V* v) const -> const Vertices&;
   auto isEmpty() const -> bool;
   auto addVertice(V* v) -> void;
   auto removeVertice(V* v) -> void;
   auto removeVertice(const Vertices& vertices) -> void;
-  template <class... Rest>
-  auto addEdge(V* v, V* u, Rest... rest) -> void;
-  template <class... Rest>
-  auto removeEdge(V* v, V* u, Rest... rest) -> void;
+  auto addEdge(V* v, V* u) -> void;
+  auto removeEdge(V* v, V* u) -> void;
   auto existEdge(V* v, V* u) const -> bool;
 };
 
@@ -82,20 +81,15 @@ auto Graph<V>::removeVertice(const Vertices& vertices) -> void {
 }
 
 template <class V>
-template <class... Rest>
-auto auto Graph<V>::addEdge(V* v, V* u, Rest... rest)
-  -> void {
+inline auto Graph<V>::addEdge(V* v, V* u) -> void {
   this->adjacency_list_[v].insert(u);
   this->adjacency_list_[u].insert(v);
-  if(sizeof...(Rest)) this->addEdge(v, rest...);
 }
 
 template <class V>
-template <class... Rest>
-auto auto Graph<V>::removeEdge(V* v, V* u, Rest... rest) -> void {
+inline auto Graph<V>::removeEdge(V* v, V* u) -> void {
   this->adjacency_list_[v].erase(u);
   this->adjacency_list_[u].erase(v);
-  if(sizeof...(Rest)) this->removeEdge(v, rest...);
 }
 
 template <class V>
