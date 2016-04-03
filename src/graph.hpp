@@ -9,23 +9,24 @@ namespace bk {
 template <class V>
 class Graph {
  public:
-  using NodeSet = std::unordered_set<V*>;
+  using Vertices = std::unordered_set<V*>;
+  using AdjacencyList = std::unordered_map<V*, Vertices>;
 
  private:
-  NodeSet nodes_;
-  std::unordered_map<V*, VSet> adjacency_;
+  Vertices vertices_;
+  AdjacencyList adjacency_;
 
  public:
   Graph() = default;
   template <class T>
   explicit Graph(T&& adjacency);
   ~Graph() = default;
-  auto addNode(V* node) -> void;
+  auto addVertice(V* v) -> void;
   template <class... Rest>
-  auto addEdge(V* node1, V* node2, Rest... rest) -> void;
+  auto addEdge(V* v1, V* v2, Rest... rest) -> void;
   template <class... Rest>
-  auto removeEdge(V* node1, V* node2, Rest... rest) -> void;
-  auto existEdge(V* node1, V* node2) -> bool;
+  auto removeEdge(V* v1, V* v2, Rest... rest) -> void;
+  auto existEdge(V* v1, V* v2) -> bool;
 };
 
 template <class V>
@@ -35,30 +36,30 @@ inline Graph<V>::Graph(T&& adjacency)
 }
 
 template <class V>
-inline Graph<V>::addNode(V* node) -> void {
-  this->nodes_.insert(node);
+inline Graph<V>::addVertice(V* v) -> void {
+  this->vertices_.insert(v);
 }
 
 template <class V>
 template <class... Rest>
-auto Graph<V>::addEdge(V* node1, V* node2, Rest... rest)
+auto Graph<V>::addEdge(V* v1, V* v2, Rest... rest)
   -> void {
-  this->adjacency_[node1].insert(node2);
-  this->adjacency_[node2].insert(node1);
-  if(sizeof...(Rest)) addEdge(node1, rest...);
+  this->adjacency_[v1].insert(v2);
+  this->adjacency_[v2].insert(v1);
+  if(sizeof...(Rest)) addEdge(v1, rest...);
 }
 
 template <class V>
 template <class... Rest>
-auto Graph<V>::removeEdge(V* node1, V* node2, Rest... rest)
+auto Graph<V>::removeEdge(V* v1, V* v2, Rest... rest)
   -> void {
-  this->adjacency_[node1].erase(node2);
-  this->adjacency_[node2].erase(node1);
-  if(sizeof...(Rest)) removeEdge(node1, rest...);
+  this->adjacency_[v1].erase(v2);
+  this->adjacency_[v2].erase(v1);
+  if(sizeof...(Rest)) removeEdge(v1, rest...);
 }
 
 template <class V>
-inline auto Graph<V>::existEdge(V* node1, V* node2) -> bool {
-  return this->adjacency_[node1].count(node2);
+inline auto Graph<V>::existEdge(V* v1, V* v2) -> bool {
+  return this->adjacency_[v1].count(v2);
 }
 }
