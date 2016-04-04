@@ -1,6 +1,6 @@
 /**
- * @file bron_kerbosch_pivot.hpp
- * @brief header of BronKerboschPivot class
+ * @file pivot.hpp
+ * @brief header of Pivot class
  */
 
 #pragma once
@@ -16,7 +16,7 @@ using Vertices = typename Graph<V>::Vertices;
 template <class V>
 using Cliques = std::list<Vertices<V>>;
 
-class BronKerboschPivot {
+class Pivot {
  private:
   template <class V>
   struct Report;
@@ -45,7 +45,7 @@ class BronKerboschPivot {
 };
 
 template <class V>
-auto BronKerboschPivot::_selectPivot(const Graph<V>& g, const Vertices<V>& p)
+auto Pivot::_selectPivot(const Graph<V>& g, const Vertices<V>& p)
   -> V* {
   V* pivot;
   int max_neighbor_number = -1;
@@ -60,21 +60,21 @@ auto BronKerboschPivot::_selectPivot(const Graph<V>& g, const Vertices<V>& p)
 }
 
 template <class V>
-inline auto BronKerboschPivot::_getNeighbors(const Graph<V>& g, V* v)
+inline auto Pivot::_getNeighbors(const Graph<V>& g, V* v)
   -> Vertices<V> {
   return std::move(g.getAdjacentVertices(v));
 }
 
 template <class V>
-inline auto BronKerboschPivot::_reportMaximalClique(Vertices<V>&& r) -> void {
+inline auto Pivot::_reportMaximalClique(Vertices<V>&& r) -> void {
   Report<V>::cliques.push_back(std::move(r));
 }
 
 template <class V>
-auto BronKerboschPivot::_solve(const Graph<V>& g,
-                               Vertices<V>&& r,
-                               Vertices<V>&& p,
-                               Vertices<V>&& x) -> void {
+auto Pivot::_solve(const Graph<V>& g,
+                   Vertices<V>&& r,
+                   Vertices<V>&& p,
+                   Vertices<V>&& x) -> void {
   if(p.empty() && x.empty()) return _reportMaximalClique<V>(std::move(r));
   auto u = _getNeighbors(g, _selectPivot(g, p));
   for(const auto& v : util::set_difference(p, u)) {
@@ -86,7 +86,7 @@ auto BronKerboschPivot::_solve(const Graph<V>& g,
 }
 
 template <class V>
-auto BronKerboschPivot::solve(const Graph<V>& g) -> Cliques<V> {
+auto Pivot::solve(const Graph<V>& g) -> Cliques<V> {
   Report<V>::cliques.clear();
   Vertices<V> r, p = g.getVertices(), x;
   _solve(g, std::move(r), std::move(p), std::move(x));

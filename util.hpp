@@ -8,8 +8,8 @@
 #include <unordered_set>
 #include <algorithm>
 
+namespace bk {
 namespace util {
-
 template <class T>
 auto set_union(const std::unordered_set<T>& set, const T& value)
   -> std::unordered_set<T>;
@@ -71,5 +71,6 @@ inline auto set_difference(const std::unordered_set<T>& lhs,
                            const std::unordered_set<T>& rhs)
   -> std::unordered_set<T> {
   return std::move(set_operation(lhs, rhs, std::set_difference));
+}
 }
 }
