@@ -29,8 +29,8 @@ class Graph {
 
   auto getVertices() const -> const Vertices&;
   auto getAdjacentVertices(V v) const -> const Vertices&;
-  auto addVertice(V v) -> void;
-  auto removeVertice(V v) -> void;
+  auto addVertex(V v) -> void;
+  auto removeVertex(V v) -> void;
   auto addEdge(V v, V u) -> void;
   auto removeEdge(V v, V u) -> void;
   auto existEdge(V v, V u) const -> bool;
@@ -52,13 +52,13 @@ inline auto Graph<V>::getAdjacentVertices(V v) const -> const Vertices& {
 }
 
 template <class V>
-inline auto Graph<V>::addVertice(V v) -> void {
+inline auto Graph<V>::addVertex(V v) -> void {
   this->vertices_.insert(v);
   this->adjacency_list_.insert(v);
 }
 
 template <class V>
-auto Graph<V>::removeVertice(V v) -> void {
+auto Graph<V>::removeVertex(V v) -> void {
   this->vertices_.erase(v);
   for(const auto& u : this->adjacency_list_[v]) {
     this->adjacency_list_[u].erase(v);
