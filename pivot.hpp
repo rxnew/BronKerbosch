@@ -48,7 +48,7 @@ class Pivot {
 };
 
 template <class V>
-Cliques<V> Pivot::Report<V>::cliques = Cliques<V>();
+Cliques<V> Pivot::Report<V>::cliques;
 
 template <class V>
 auto Pivot::_selectPivot(const Graph<V>& g, const Vertices<V>& p)
@@ -88,31 +88,13 @@ auto Pivot::_solve(const Graph<V>& g,
                    Vertices<V>&& r,
                    Vertices<V>&& p,
                    Vertices<V>&& x) -> void {
-  if(p.empty() && x.empty()) {
-    std::cout << "Report: ";
-    print(r);
-    std::cout << std::endl;
-    return _reportMaximalClique<V>(std::move(r));
+  if(p.empty()) {
+    if(x.empty()) _reportMaximalClique<V>(std::move(r));
+    return;
   }
-  if(p.empty()) return;
   auto u = _getNeighbors(g, _selectPivot(g, p));
   for(const auto& v : util::set_difference(p, u)) {
     auto nv = _getNeighbors(g, v);
-    std::cout << "R: ";
-    print(r);
-    std::cout << "P: ";
-    print(p);
-    std::cout << "X: ";
-    print(x);
-    std::cout << "NV: ";
-    print(nv);
-    std::cout << "P union NV: ";
-    print(util::set_union(p, nv));
-    std::cout << "P intersect NV: ";
-    print(util::set_intersection(p, nv));
-    std::cout << "P difference NV: ";
-    print(util::set_difference(p, nv));
-    std::cout << std::endl;
     _solve(g,
            util::set_union(r, v),
            util::set_intersection(p, nv),
