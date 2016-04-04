@@ -76,13 +76,6 @@ inline auto Pivot::_reportMaximalClique(Vertices<V>&& r) -> void {
   Report<V>::cliques.push_back(std::move(r));
 }
 
-template <class T>
-auto print(const T& x) -> void {
-  for(auto y : x)
-    std::cout << *y;
-  std::cout << std::endl;
-}
-
 template <class V>
 auto Pivot::_solve(const Graph<V>& g,
                    Vertices<V>&& r,
