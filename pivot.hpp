@@ -24,9 +24,9 @@ class Pivot {
   Pivot() = delete;
 
   template <class V>
-  static auto _selectPivot(const Graph<V>& g, const Vertices<V>& p) -> V*;
+  static auto _selectPivot(const Graph<V>& g, const Vertices<V>& p) -> V;
   template <class V>
-  static auto _getNeighbors(const Graph<V>& g, V* v) -> Vertices<V>;
+  static auto _getNeighbors(const Graph<V>& g, V v) -> Vertices<V>;
   template <class V>
   static auto _reportMaximalClique(Vertices<V>&& r) -> void;
   template <class V>
@@ -52,8 +52,8 @@ Cliques<V> Pivot::Report<V>::cliques;
 
 template <class V>
 auto Pivot::_selectPivot(const Graph<V>& g, const Vertices<V>& p)
-  -> V* {
-  V* pivot;
+  -> V {
+  V pivot;
   int max_neighbor_number = -1;
   for(const auto& v : p) {
     int neighbor_number = g.getAdjacentVertices(v).size();
@@ -66,7 +66,7 @@ auto Pivot::_selectPivot(const Graph<V>& g, const Vertices<V>& p)
 }
 
 template <class V>
-inline auto Pivot::_getNeighbors(const Graph<V>& g, V* v)
+inline auto Pivot::_getNeighbors(const Graph<V>& g, V v)
   -> Vertices<V> {
   return std::move(g.getAdjacentVertices(v));
 }
