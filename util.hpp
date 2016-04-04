@@ -6,18 +6,12 @@
 #pragma once
 
 #include <unordered_set>
-#include <algorithm>
 
 namespace bk {
 namespace util {
 template <class T>
 auto set_union(const std::unordered_set<T>& set, const T& value)
   -> std::unordered_set<T>;
-
-template <class T, class F>
-auto set_operation(const std::unordered_set<T>& lhs,
-                   const std::unordered_set<T>& rhs,
-                   const F& operation) -> std::unordered_set<T>;
 
 template <class T>
 auto set_union(const std::unordered_set<T>& lhs,
@@ -42,35 +36,42 @@ auto set_union(const std::unordered_set<T>& set, const T& value)
   return std::move(result);
 }
 
-template <class T, class F>
-auto set_operation(const std::unordered_set<T>& lhs,
-                   const std::unordered_set<T>& rhs,
-                   const F& operation) -> std::unordered_set<T> {
+template <class T>
+auto set_union(const std::unordered_set<T>& lhs,
+               const std::unordered_set<T>& rhs)
+  -> std::unordered_set<T> {
   std::unordered_set<T> result;
-  operation(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(),
-            std::inserter(result, result.end()));
+  for(const auto& x : lhs) {
+    result.insert(x);
+  }
+  for(const auto& x : rhs) {
+    result.insert(x);
+  }
   return std::move(result);
 }
 
 template <class T>
-inline auto set_union(const std::unordered_set<T>& lhs,
+auto set_intersection(const std::unordered_set<T>& lhs,
                       const std::unordered_set<T>& rhs)
   -> std::unordered_set<T> {
-  return std::move(set_operation(lhs, rhs, std::set_union));
+  std::unordered_set<T> result;
+  for(const auto& x : lhs) {
+    if(rhs.find(x) != rhs.cend()) result.insert(x);
+  }
+  return std::move(result);
 }
 
 template <class T>
-inline auto set_intersection(const std::unordered_set<T>& lhs,
-                             const std::unordered_set<T>& rhs)
+auto set_difference(const std::unordered_set<T>& lhs,
+                    const std::unordered_set<T>& rhs)
   -> std::unordered_set<T> {
-  return std::move(set_operation(lhs, rhs, std::set_intersection));
+  std::unordered_set<T> result;
+  for(const auto& x : lhs) {
+    if(rhs.find(x) == rhs.cend()) result.insert(x);
+  }
+  return std::move(result);
 }
 
-template <class T>
-inline auto set_difference(const std::unordered_set<T>& lhs,
-                           const std::unordered_set<T>& rhs)
-  -> std::unordered_set<T> {
-  return std::move(set_operation(lhs, rhs, std::set_difference));
-}
+#undef SET_OPERATION
 }
 }

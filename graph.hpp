@@ -29,10 +29,8 @@ class Graph {
 
   auto getVertices() const -> const Vertices&;
   auto getAdjacentVertices(V* v) const -> const Vertices&;
-  auto isEmpty() const -> bool;
   auto addVertice(V* v) -> void;
   auto removeVertice(V* v) -> void;
-  auto removeVertice(const Vertices& vertices) -> void;
   auto addEdge(V* v, V* u) -> void;
   auto removeEdge(V* v, V* u) -> void;
   auto existEdge(V* v, V* u) const -> bool;
@@ -50,12 +48,7 @@ inline auto Graph<V>::getVertices() const -> const Vertices& {
 
 template <class V>
 inline auto Graph<V>::getAdjacentVertices(V* v) const -> const Vertices& {
-  return *this->adjacency_list_.find(v);
-}
-
-template <class V>
-inline auto Graph<V>::isEmpty() const -> bool {
-  return this->vertices_.empty();
+  return this->adjacency_list_.find(v)->second;
 }
 
 template <class V>
@@ -71,13 +64,6 @@ auto Graph<V>::removeVertice(V* v) -> void {
     this->adjacency_list_[u].erase(v);
   }
   this->adjacency_list_.erase(v);
-}
-
-template <class V>
-auto Graph<V>::removeVertice(const Vertices& vertices) -> void {
-  for(const auto& v : vertices) {
-    this->removeVertice(v);
-  }
 }
 
 template <class V>
