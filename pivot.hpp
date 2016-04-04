@@ -6,6 +6,7 @@
 #pragma once
 
 #include <list>
+#include <cassert>
 
 #include "graph.hpp"
 #include "util.hpp"
@@ -53,8 +54,10 @@ Cliques<V> Pivot::Report<V>::cliques;
 template <class V>
 auto Pivot::_selectPivot(const Graph<V>& g, const Vertices<V>& p)
   -> V {
-  V pivot;
-  int max_neighbor_number = -1;
+  assert(!p.empty());
+
+  V pivot = *p.begin();
+  int max_neighbor_number = 0;
   for(const auto& v : p) {
     int neighbor_number = g.getAdjacentVertices(v).size();
     if(neighbor_number > max_neighbor_number) {

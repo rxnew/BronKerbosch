@@ -54,7 +54,7 @@ inline auto Graph<V>::getAdjacentVertices(V v) const -> const Vertices& {
 template <class V>
 inline auto Graph<V>::addVertex(V v) -> void {
   this->vertices_.insert(v);
-  this->adjacency_list_.insert(v);
+  this->adjacency_list_.emplace(v, Vertices());
 }
 
 template <class V>
