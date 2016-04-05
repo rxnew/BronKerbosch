@@ -7,6 +7,7 @@
 
 #include <unordered_set>
 #include <unordered_map>
+#include <cassert>
 
 namespace bk {
 template <class V>
@@ -18,6 +19,8 @@ class Graph {
  private:
   Vertices vertices_;
   AdjacencyList adjacency_list_;
+
+  auto _initAdjacencyList() -> void;
 
  public:
   Graph() = default;
@@ -38,17 +41,26 @@ class Graph {
 };
 
 template <class V>
+auto Graph<V>::_initAdjacencyList() -> void {
+  for(const auto& v : this->vertices_) {
+    this->adjacency_list_.emplace(v, Vertices());
+  }
+}
+
+template <class V>
 inline Graph<V>::Graph(size_t size) : vertices_(size), adjacency_list_(size) {
 }
 
 template <class V>
 inline Graph<V>::Graph(const Vertices& vertices)
   : vertices_(vertices), adjacency_list_(vertices.size()) {
+  this->_initAdjacencyList();
 }
 
 template <class V>
 inline Graph<V>::Graph(Vertices&& vertices)
   : vertices_(std::move(vertices)), adjacency_list_(vertices.size()) {
+  this->_initAdjacencyList();
 }
 
 template <class V>
@@ -58,7 +70,9 @@ inline auto Graph<V>::getVertices() const -> const Vertices& {
 
 template <class V>
 inline auto Graph<V>::getAdjacentVertices(V v) const -> const Vertices& {
-  return this->adjacency_list_.find(v)->second;
+  auto pos = this->adjacency_list_.find(v);
+  assert(pos != this->adjacency_list_.cend());
+  return pos->second;
 }
 
 template <class V>

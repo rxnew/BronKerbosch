@@ -6,7 +6,6 @@
 #pragma once
 
 #include <list>
-#include <cassert>
 
 #include "graph.hpp"
 #include "util.hpp"
