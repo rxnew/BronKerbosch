@@ -22,8 +22,8 @@ class Graph {
  public:
   Graph() = default;
   Graph(size_t size);
-  template <template <class...> class T>
-  explicit Graph(T<V>&& vertices);
+  explicit Graph(const Vertices& vertices);
+  explicit Graph(Vertices&& vertices);
   Graph(const Graph&) = default;
   Graph(Graph&&) = default;
   ~Graph() = default;
@@ -42,9 +42,13 @@ inline Graph<V>::Graph(size_t size) : vertices_(size), adjacency_list_(size) {
 }
 
 template <class V>
-template <template <class...> class T>
-inline Graph<V>::Graph(T<V>&& vertices) : vertices_(std::forward<T>(vertices)),
-                                          adjacency_list_(vertices.size()) {
+inline Graph<V>::Graph(const Vertices& vertices)
+  : vertices_(vertices), adjacency_list_(vertices.size()) {
+}
+
+template <class V>
+inline Graph<V>::Graph(Vertices&& vertices)
+  : vertices_(std::move(vertices)), adjacency_list_(vertices.size()) {
 }
 
 template <class V>
