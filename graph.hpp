@@ -23,7 +23,7 @@ class Graph {
 
  public:
   Graph() = default;
-  Graph(size_t size);
+  explicit Graph(size_t size);
   explicit Graph(const Vertices& vertices);
   explicit Graph(Vertices&& vertices);
   Graph(const Graph&) = default;
