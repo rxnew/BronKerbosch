@@ -47,4 +47,4 @@ class Pivot {
 };
 }
 
-#include "impl/pivot.hpp"
+#include "impl/pivot_impl.hpp"
