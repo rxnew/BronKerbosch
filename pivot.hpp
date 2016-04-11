@@ -37,13 +37,12 @@ class Pivot {
  public:
   template <class V>
   static auto solve(const Graph<V>& g) -> Cliques<V>;
+};
 
- private:
-  template <class V>
-  struct Report {
-    static Cliques<V> cliques;
-    Report() = delete;
-  };
+template <class V>
+struct Pivot::Report {
+  static Cliques<V> cliques;
+  Report() = delete;
 };
 }
 
