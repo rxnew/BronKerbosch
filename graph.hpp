@@ -31,12 +31,13 @@ class Graph {
   ~Graph() = default;
 
   auto getVertices() const -> const Vertices&;
-  auto getAdjacentVertices(V v) const -> const Vertices&;
-  auto addVertex(V v) -> void;
-  auto removeVertex(V v) -> void;
-  auto addEdge(V v, V u) -> void;
-  auto removeEdge(V v, V u) -> void;
-  auto existEdge(V v, V u) const -> bool;
+  auto getAdjacentVertices(const V& v) const -> const Vertices&;
+  auto getDegree(const V& v) const -> size_t;
+  auto addVertex(const V& v) -> void;
+  auto removeVertex(const V& v) -> void;
+  auto addEdge(const V& v, const V& u) -> void;
+  auto removeEdge(const V& v, const V& u) -> void;
+  auto existEdge(const V& v, const V& u) const -> bool;
 };
 }
 

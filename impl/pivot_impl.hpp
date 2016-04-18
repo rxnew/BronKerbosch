@@ -13,7 +13,7 @@ auto Pivot::_selectPivot(const Graph<V>& g, const Vertices<V>& p) -> V {
   V pivot = *p.begin();
   int max_neighbor_number = 0;
   for(const auto& v : p) {
-    int neighbor_number = g.getAdjacentVertices(v).size();
+    int neighbor_number = g.getDegree(v);
     if(neighbor_number > max_neighbor_number) {
       max_neighbor_number = neighbor_number;
       pivot = v;
