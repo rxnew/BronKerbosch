@@ -7,9 +7,9 @@
 
 #include <list>
 
-#include "graph.hpp"
-
 namespace bk {
+template <class V>
+using Graph = typename graph::UndirecteGraph;
 template <class V>
 using Vertices = typename Graph<V>::Vertices;
 template <class V>
