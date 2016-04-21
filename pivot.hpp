@@ -9,7 +9,7 @@
 
 namespace bk {
 template <class V>
-using Graph = typename graph::UndirecteGraph;
+using Graph = typename graph::UndirecteGraph<V>;
 template <class V>
 using Vertices = typename Graph<V>::Vertices;
 template <class V>
