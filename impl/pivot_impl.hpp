@@ -25,11 +25,6 @@ auto Pivot::_selectPivot(const Graph<V>& g, const Vertices<V>& p) -> V {
 }
 
 template <class V>
-inline auto Pivot::_getNeighbors(const Graph<V>& g, V v) -> Vertices<V> {
-  return std::move(g.getAdjacentVertices(v));
-}
-
-template <class V>
 inline auto Pivot::_reportMaximalClique(Vertices<V>&& r) -> void {
   Report<V>::cliques.push_back(std::move(r));
 }
@@ -43,9 +38,9 @@ auto Pivot::_solve(const Graph<V>& g,
     if(x.empty()) _reportMaximalClique<V>(std::move(r));
     return;
   }
-  auto u = _getNeighbors(g, _selectPivot(g, p));
+  auto u = g.getNeighbors(_selectPivot(g, p));
   for(const auto& v : util::set_difference(p, u)) {
-    auto nv = _getNeighbors(g, v);
+    auto nv = g.getNeighbors(v);
     _solve(g,
            util::set_union(r, v),
            util::set_intersection(p, nv),

@@ -25,8 +25,6 @@ class Pivot {
   template <class V>
   static auto _selectPivot(const Graph<V>& g, const Vertices<V>& p) -> V;
   template <class V>
-  static auto _getNeighbors(const Graph<V>& g, V v) -> Vertices<V>;
-  template <class V>
   static auto _reportMaximalClique(Vertices<V>&& r) -> void;
   template <class V>
   static auto _solve(const Graph<V>& g,
